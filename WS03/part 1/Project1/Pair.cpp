@@ -22,7 +22,7 @@ namespace sdds {
 
 
 	std::ostream& operator<<(std::ostream& ostr, const Pair& src){
-		return ostr << std::setw(20)<<std::right << src.getKey() << ": " << std::left << src.getValue() << "\n";
+		return ostr << std::setw(20)<<std::right << src.getKey() << ": " << std::left << src.getValue();
 	}
 
 

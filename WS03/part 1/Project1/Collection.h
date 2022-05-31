@@ -16,7 +16,7 @@ namespace sdds {
 		size_t size() const { return eleNumTracker; };
 		void display(std::ostream& ostr = std::cout);
 		bool add(const T& item);
-		T operator [](int index) const;
+		T operator [](unsigned index) const;
 	};
 	//Also pratice the syntax of initializing a static attribute of a class//
 	template<typename T,unsigned capacity>
@@ -27,7 +27,7 @@ namespace sdds {
 		ostr << "----------------------" << "\n";
 		ostr << "| Collection Content |\n";
 		ostr << "----------------------\n";
-		for (int i = 0; i < eleNumTracker; i++) 
+		for (unsigned i = 0; i < eleNumTracker; i++)
 			ostr << arrCollection[i]<< "\n";
 		ostr << "----------------------\n";
 	}
@@ -45,7 +45,7 @@ namespace sdds {
 	}
 
 	template<typename T, unsigned capacity>
-	inline T Collection<T, capacity>::operator[](int index) const{
+	inline T Collection<T, capacity>::operator[](unsigned index) const{
 		T res{};
 		return res = (index <= eleNumTracker)?arrCollection[index] : dummy;
 	}
