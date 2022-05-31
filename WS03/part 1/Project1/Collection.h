@@ -1,24 +1,26 @@
 #ifndef SDDS_COLLECTION_H
 #define SDDS_COLLECTION_H
 #include <iostream>
+#include "Pair.h"
+
 namespace sdds {
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
 	template <typename T ,unsigned capacity>
 	class Collection {
 		T arrCollection [capacity]{};
 		// Used the inline to initialize the static member value//
 		// saved some works on initializing this member//
-		inline static size_t eleNumTracker = 0;
-		T dummy{};
+		// inline static size_t eleNumTracker = 0;//
+		static size_t eleNumTracker;
+		static T dummy;
 	public:
 		size_t size() const { return eleNumTracker; };
 		void display(std::ostream& ostr = std::cout);
 		bool add(const T& item);
 		T operator [](int index) const;
 	};
+	//Also pratice the syntax of initializing a static attribute of a class//
+	template<typename T,unsigned capacity>
+	size_t Collection<T, capacity> :: eleNumTracker = 0;
 
 	template<typename T, unsigned capacity>
 	inline void Collection<T, capacity>::display(std::ostream& ostr) {
@@ -47,8 +49,12 @@ namespace sdds {
 		T res{};
 		return res = (index <= eleNumTracker)?arrCollection[index] : dummy;
 	}
+	
+	template<typename T, unsigned capacity>
+	T Collection<T, capacity>::dummy{};
 
-
+	template<>
+	Pair Collection<Pair, 100>::dummy = Pair("No Key", "No Value");
 	
 }
 #endif // !SDDS_COLLECTION_H
