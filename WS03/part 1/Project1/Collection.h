@@ -15,8 +15,9 @@ namespace sdds {
 	public:
 		size_t size() const { return eleNumTracker; };
 		void display(std::ostream& ostr = std::cout);
-		bool add(const T& item);
+		virtual bool add(const T& item);
 		T operator [](unsigned index) const;
+		virtual ~Collection() {};
 	};
 	//Also pratice the syntax of initializing a static attribute of a class//
 	template<typename T,unsigned capacity>
