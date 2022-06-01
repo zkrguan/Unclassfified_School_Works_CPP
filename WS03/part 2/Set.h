@@ -5,7 +5,7 @@
 
 namespace sdds {
 	template <typename T>
-	class Set : public Collection<T, 100> {
+	class Set : public Collection<T> {
 	public:	
 		bool add(const T& item);
 	};
@@ -18,7 +18,7 @@ namespace sdds {
 				res = false;
 		}
 		if (res)
-			Collection<T, 100>::add(item);
+			Collection<T>::add(item);
 		return res;
 	}
 

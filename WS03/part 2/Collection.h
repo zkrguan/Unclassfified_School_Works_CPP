@@ -4,7 +4,7 @@
 #include "Pair.h"
 
 namespace sdds {
-	template <typename T ,unsigned capacity>
+	template <typename T = Pair, unsigned capacity = 100>
 	class Collection {
 		T arrCollection [capacity]{};
 		// Used the inline to initialize the static member value//
