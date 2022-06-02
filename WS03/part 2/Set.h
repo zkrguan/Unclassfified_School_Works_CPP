@@ -42,6 +42,5 @@ namespace sdds {
 		}
 		return res;
 	}
-
 }
 #endif // !SDDS_SET_H
