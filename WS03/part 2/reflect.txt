@@ -1,0 +1,95 @@
+/*
+	Course_Name:		OOP 345
+	Section:		A
+	Title:			Workshop 3 Part 2
+	Module:		Reflect
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
+This workshop is actually pretty different from the other workshops so far, and while I was completing this workshop. Although I did not have the chance to practice the clone and LSP learned from our weekly lecture, the concept about template was well extended in this workshop. 
+1.	Why we have to put a template’s definition and declarations inside one header file unlike the other types of modules?
+
+	I remember Fardad well illustrated this in OOP244 last semester with a hand drawled image. Basically, he mentioned that the compiler won’t be able to see a module’s .cpp file during the compilation time while compiling the other modules. 
+For example, I created a variable in main.cpp by using the Collection class template, and defined Collection class’s methods inside a Collection.cpp file. During the compilation of the main.cpp, the compiler won’t be able to see all definitions of the class methods because only the prototypes can be seen. Probably, the compiler will complain the member methods are only declared but not defined for the class methods and stop compiling the main.cpp. 
+
+2.	Why would I need to add those methods and helper functions in the Pair module? 
+
+When it comes to a user defined data type, we need to add necessary methods and functions to make it work just like primitive types inside a class template. 
+
+To be more specific, let me explain the reason one function by one function. 
+
+A.	In Pair.h file, I overloaded the operator == 
+bool operator == (const Pair& src) const;
+
+Because in the method add of Set.h file,
+template<typename T>
+	inline bool Set<T>::add(const T& item){
+		bool res = true;
+		for (unsigned i = 0; (i < this->size())&&res; i++) {
+			if ((*this)[i] == item)
+				res = false;
+		}
+		if (res)
+			Collection<T,100>::add(item);
+		return res;
+	}
+Assume template argument is pair, I am 100 percent sure the visual studio will tell you there is no instance of overloading operator == if I don’t overload the operator == in my Pair module. Because compiler does not know how would you like to compare two objects under the class Pair. 
+
+B.	I declared the default constructor for Pair class. 
+Pair() {};
+Because in the collection module, when I was initializing the dummy object. 
+		template<typename T, unsigned capacity>
+	T Collection<T, capacity>::dummy{};
+If I do not define the default constructor, the compiler won’t be able to know how to initialize a object in a default way when the template argument T is Pair.
+
+C.	I declared the copy assignment operator for Pair class. 
+Pair& operator = (const Pair& src);
+		Because if I don’t do so, inside the add method of the Collection module. 
+		template<typename T, unsigned capacity>
+		inline bool Collection<T, capacity>::add(const T& item){
+		bool res = true;
+		if (eleNumTracker==capacity)
+			res = false;
+		else{
+			arrCollection[eleNumTracker] = item;
+			eleNumTracker++;
+		}
+		return res;
+		}	
+The compiler would not know how to copy from a Pair object onto another Pair object. 
+
+D.	I declared the copy constructor too 
+Pair(const Pair& src);
+Because the subscript operator overload in Collection module returns value instead of a reference. 
+template<typename T, unsigned capacity>
+		inline T Collection<T, capacity>::operator[](unsigned index) const{
+		return (index < eleNumTracker) ? arrCollection[index] : dummy;
+}
+I do remember from OOP244, if this is return by value, a nameless object will be created by the copy constructor and got returned by the function. I am not really sure why it is working like this. But I do know this fact. Prof if you know why, can you insert your answer in the feedback. I enjoyed reading your explanation over the material on the internet. 
+
+E.	Finally, I have to overload the insertion operator because the display function in Collection.h 
+template<typename T, unsigned capacity>
+		inline void Collection<T, capacity>::display(std::ostream& ostr) {
+		ostr << "----------------------" << "\n";
+		ostr << "| Collection Content |\n";
+		ostr << "----------------------\n";
+		for (unsigned i = 0; i < eleNumTracker; i++)
+			ostr << arrCollection[i]<< "\n";
+		ostr << "----------------------\n";
+	}
+If I don’t overload the insertion operator, the computer won’t know how to use insertion operator to redirect the values to the ostream object since a pair object has two attributes, who knows which one should be displayed.
+
+
+3.	The reason for specializing the add() member function in the Set module?
+Because as we learned from IPC144, all the float numbers are stored in the memory by estimation followed (with some specific rules) instead of its actual value. As a result, there might be some kind of discrepancy during the estimation. 
+Therefore, we used the fabs function from the cmath library to get the absolute value difference between two float numbers. And if the difference is less than 0.01, we consider two float values are the same. 
+
+4.	The reason for defining the class variable outside the class definition:
+First of all, thanks to my prof, I am finally clear about the class variable. Class variable = a STATIC variable declared under a class.
+A class variable can be accessed by all the objects declared under that class. Let’s say if we initialize that variable inside the class definition. Even if the compiler allows you to do so, guess what? Every time , when you instantiate an object under that class, the static variable will be initialized again. Static variables are often used as an object counter in a program. Do you want your counter to be reset every time when there is a new object got instantiated? Probably no right?
+
+Further feedback: 
+I kinda feel I spent the same amount of time on actual coding part and reflect part respectively. Is it possible we could have more coding portions? Because I learned a lot of sick tricks from our weekly lectures. But I haven’t had a chance to actually use it. I just don’t want to forget it before I have a chance to use it. Is it okay that we have some optional workshops posted on the BB or GIthub? 
+
+
+

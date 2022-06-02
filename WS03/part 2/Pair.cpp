@@ -1,3 +1,11 @@
+/*
+	Course_Name:	OOP 345
+	Section:		A
+	Title:			Workshop 3 Part 2
+	Module:			Pair.cpp
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
 #include <string>
 #include <iostream>
 #include <iomanip>

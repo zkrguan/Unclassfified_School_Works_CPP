@@ -1,3 +1,11 @@
+/*
+	Course_Name:	OOP 345
+	Section:		A
+	Title:			Workshop 3 Part 2
+	Module:			Set
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
 #ifndef SDDS_SET_H
 #define SDDS_SET_H
 #include <cmath>
@@ -5,7 +13,7 @@
 
 namespace sdds {
 	template <typename T>
-	class Set : public Collection<T> {
+	class Set : public Collection<T,100> {
 	public:	
 		bool add(const T& item);
 	};
@@ -18,7 +26,7 @@ namespace sdds {
 				res = false;
 		}
 		if (res)
-			Collection<T>::add(item);
+			Collection<T,100>::add(item);
 		return res;
 	}
 

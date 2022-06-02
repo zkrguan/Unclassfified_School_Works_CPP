@@ -1,10 +1,18 @@
+/*
+	Course_Name:	OOP 345
+	Section:		A
+	Title:			Workshop 3 Part 2
+	Module:			Collection
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
 #ifndef SDDS_COLLECTION_H
 #define SDDS_COLLECTION_H
 #include <iostream>
 #include "Pair.h"
 
 namespace sdds {
-	template <typename T = Pair, unsigned capacity = 100>
+	template <typename T, unsigned capacity>
 	class Collection {
 		T arrCollection [capacity]{};
 		// Used the inline to initialize the static member value//
@@ -47,8 +55,7 @@ namespace sdds {
 
 	template<typename T, unsigned capacity>
 	inline T Collection<T, capacity>::operator[](unsigned index) const{
-		T res{};
-		return res = (index <= eleNumTracker)?arrCollection[index] : dummy;
+		return (index < eleNumTracker) ? arrCollection[index] : dummy;
 	}
 	
 	template<typename T, unsigned capacity>
