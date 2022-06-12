@@ -88,9 +88,9 @@ namespace sdds {
 		if (this->validateName()) {
 			std::cout << std::left << std::setw(10) << this->m_custName;
 			std::cout << "|" << std::left << std::setw(25) << this->m_foodDesc;
-			std::cout << "|" << std::left << std::fixed << std::showpoint << std::setprecision(2) << std::setw(12) << (this->m_foodPrice * (1.0 + g_taxrate)) << "|";
+			std::cout << "|" << std::left << std::showpoint << std::setprecision(2) << std::setw(12) << (this->m_foodPrice * (1.0 + g_taxrate)) << "|";
 			if (this->m_dailySpecial) {
-				std::cout << std::right << std::fixed << std::showpoint << std::setprecision(2) << std::setw(12) << std::setw(13) << ((this->m_foodPrice * (1.0 + g_taxrate) - g_dailydiscount)) << std::endl;
+				std::cout << std::right << std::showpoint << std::setprecision(2) << std::setw(12) << std::setw(13) << ((this->m_foodPrice * (1.0 + g_taxrate) - g_dailydiscount)) << std::endl;
 			}
 			else {
 				std::cout << std::endl;
