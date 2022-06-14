@@ -70,7 +70,7 @@ int main(int argc, char** argv)
 		if (src.country() == "US") {
 			src.price() *= usdToCadRate;
 		}
-		else if (src.country() == "UK" && (src.year() >= 1990 || src.year() <= 1999)) {
+		else if (src.country() == "UK" && (src.year() >= 1990 && src.year() <= 1999)) {
 			src.price() *= gbpToCadRate;
 		}
 	};
