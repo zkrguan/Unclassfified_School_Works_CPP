@@ -6,8 +6,7 @@
 #include <iostream>
 #include <string>
 
-namespace sdds
-{
+namespace sdds{
 	class Vehicle
 	{
 	public:

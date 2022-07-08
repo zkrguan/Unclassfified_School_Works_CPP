@@ -1,3 +1,12 @@
+/*
+	Course_Name:	OOP 345
+	Section:		A
+	Title:			Workshop 6 Part 2
+	Module:			Car
+	File_Name:		Car.h
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
 #ifndef SDDS_CAR_H
 #define SDDS_CAR_H
 #include <iostream>
@@ -15,6 +24,8 @@ namespace sdds {
 		virtual double topSpeed() const;
 		virtual void display(std::ostream&) const;
 		virtual ~Car() {};
+
+
 	};
 
 }
