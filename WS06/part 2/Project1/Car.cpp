@@ -37,7 +37,7 @@ namespace sdds {
 				istr.get(m_Condition);
 				if (m_Condition!='n' && m_Condition != 'u'&&m_Condition!='b'){
 					istr.ignore(1000, '\n');
-					throw std::string("invalid record");
+					throw std::string("Invalid record!");
 				}
 			}
 			else{
@@ -75,7 +75,7 @@ namespace sdds {
 		}
 		else{
 			istr.ignore(1000, '\n');
-			throw std::string("invalid record");
+			throw std::string("Invalid record!");
 		}
 	}
 
@@ -92,7 +92,7 @@ namespace sdds {
 			res = "broken";
 			break;
 		default:
-			res = "invalid conditon";
+			res = "Invalid conditon";
 			break;
 		}
 		return res;
@@ -103,7 +103,7 @@ namespace sdds {
 	}
 
 	void Car::display(std::ostream& ostr) const {
-		ostr << " | " << std::setw(10)<<std::right << m_Maker << " | " 
+		ostr << "| " << std::setw(10)<<std::right << m_Maker << " | " 
 			 << std::setw(6) <<std::left<< condition() << " | " 
 			 << std::setw(6) << std::setprecision(2) << std::fixed <<std::right<< topSpeed() << " |";
 	}
