@@ -1,3 +1,5 @@
+#include <numeric>
+#include <functional>
 #include <iomanip>
 #include <algorithm>
 #include <string>
@@ -47,7 +49,7 @@ namespace sdds {
 						//skippingThruSpaces(fst_pos, sec_pos, line);
 						//temp.m_caseNum = std::stoull(guansTrimmerV2(line.substr(fst_pos, sec_pos - fst_pos)));
 						//skippingThruSpaces(fst_pos, sec_pos, line);
-						//temp.m_deathNum = std::stoull(guansTrimmerV2(line.substr(fst_pos, sec_pos - fst_pos)));
+						//temp.m_deaths = std::stoull(guansTrimmerV2(line.substr(fst_pos, sec_pos - fst_pos)));
 
 						// The most ugly code I ever wrote since OOP244//
 						// Unfortunately it works//
@@ -69,7 +71,7 @@ namespace sdds {
 					temp.m_variant = guansTrimmerV2(std::string(tempVariant));
 					temp.m_year = std::stoi(guansTrimmerV2(std::string(tempYear)));
 					temp.m_caseNum = std::stoull(guansTrimmerV2(std::string(tempCases)));
-					temp.m_deathNum = std::stoull(guansTrimmerV2(std::string(tempDeaths)));
+					temp.m_deaths = std::stoull(guansTrimmerV2(std::string(tempDeaths)));
 					m_collection.push_back(temp);
 				}
 			}
@@ -77,8 +79,62 @@ namespace sdds {
 	}
 
 	void CovidCollection::display(std::ostream& out) const{
-		std::for_each(m_collection.begin(), m_collection.end(), [](const Covid& theCovid) {std::cout << theCovid; });
+		std::for_each(m_collection.begin(), m_collection.end(), [&out](const Covid& theCovid) {out << theCovid; });
+		size_t CaseResult{};
+		size_t DeathResult{};
+		CaseResult = std::accumulate(m_collection.begin(), m_collection.end(), 0ull, [](size_t acc, const Covid& src2) {return acc + src2.m_caseNum; } );
+		DeathResult = std::accumulate(m_collection.begin(), m_collection.end(), 0ull, [](size_t acc, const Covid& src2) {return acc + src2.m_deaths; });
+		out << "----------------------------------------------------------------------------------------\n";
+		out << "|"<<std::setw(80)<<"Total Cases Around the World: " << CaseResult << " | "<<std::endl
+			<< "|"<< std::setw(80) <<"Total Cases Around the World: " << DeathResult << " | \n";
 	}
+
+	void CovidCollection::cleanList(){
+		// overload an assignment operator for Covid class//
+		std::replace_if(m_collection.begin(), m_collection.end(), [](const Covid& src) {return src.m_variant == std::string("[None]"); }, std::string(""));
+	}
+
+	void CovidCollection::sort(std::string keyWord){
+		if (keyWord=="country")	{
+			std::sort(m_collection.begin(), m_collection.end(), [](const Covid& src1, const Covid& src2) {return src1.m_country < src2.m_country; });
+		}
+		else if (keyWord == "variant") {
+			std::sort(m_collection.begin(), m_collection.end(), [](const Covid& src1, const Covid& src2) {return src1.m_variant< src2.m_variant; });
+		}
+		else if (keyWord == "cases") {
+			std::sort(m_collection.begin(), m_collection.end(), [](const Covid& src1, const Covid& src2) {return src1.m_caseNum < src2.m_caseNum; });
+		}
+		else if (keyWord == "deaths"){
+			std::sort(m_collection.begin(), m_collection.end(), [](const Covid& src1, const Covid& src2) {return src1.m_deaths < src2.m_deaths; });
+		}
+		else{
+			std::cout << "You enter some wrong stuff\n";
+		}
+	}
+
+	bool CovidCollection::inCollection(const char* VName) const{
+		std::string paraAdapter (VName);
+		return std::any_of(m_collection.begin(), m_collection.end(), [=](const Covid& src) { return src.m_variant == paraAdapter; });
+	}
+
+	std::list<Covid> CovidCollection::getListForCountry(const char* countryName) const	{
+		std::string paraAdapter(countryName);
+		std::list<Covid> resList(std::count_if(m_collection.begin(), m_collection.end(), [=](const Covid& src) {return src.m_country == paraAdapter; }));
+		// learned the copy_if algorithm from C++ reference.
+		std::copy_if(m_collection.begin(), m_collection.end(), resList.begin(),
+			[=](const Covid& srcCollection) {return !srcCollection.m_country.compare(paraAdapter); });
+		return resList;
+	}
+
+	std::list<Covid> CovidCollection::getListForVariant(const char* variantName) const	{
+		std::string paraAdapter(variantName);
+		std::list<Covid>resList(m_collection.size());
+		std::transform(m_collection.begin(), m_collection.end(), resList.begin(), [=](const Covid& src) {Covid res{}; if (src.m_variant == paraAdapter) res = src; return res; });
+		resList.erase(std::remove_if(resList.begin(), resList.end(), [](const Covid& src) {return src.m_country == ""; }),resList.end());
+		return resList;
+	}
+
+
 
 	std::string& guansTrimmerV2(std::string&& src) {
 		if (src.c_str()) {
@@ -99,7 +155,7 @@ namespace sdds {
 			out << "";
 		}
 		out << " | " << std::setw(4) << theCovid.m_caseNum << " | "
-			<< std::setw(3) << theCovid.m_deathNum << " |\n";
+			<< std::setw(3) << theCovid.m_deaths << " |\n";
 		return out;
 	}
 }
