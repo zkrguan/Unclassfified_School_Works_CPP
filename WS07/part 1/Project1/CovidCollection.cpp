@@ -79,14 +79,14 @@ namespace sdds {
 	}
 
 	void CovidCollection::display(std::ostream& out) const{
-		std::for_each(m_collection.begin(), m_collection.end(), [&out](const Covid& theCovid) {out << theCovid; });
+		std::for_each(m_collection.begin(), m_collection.end(), [&out](const Covid& theCovid) {out << theCovid<<"\n"; });
 		size_t CaseResult{};
 		size_t DeathResult{};
 		CaseResult = std::accumulate(m_collection.begin(), m_collection.end(), 0ull, [](size_t acc, const Covid& src2) {return acc + src2.m_caseNum; } );
 		DeathResult = std::accumulate(m_collection.begin(), m_collection.end(), 0ull, [](size_t acc, const Covid& src2) {return acc + src2.m_deaths; });
 		out << "----------------------------------------------------------------------------------------\n";
-		out << "|"<<std::setw(80)<<"Total Cases Around the World: " << CaseResult << " | "<<std::endl
-			<< "|"<< std::setw(80) <<"Total Cases Around the World: " << DeathResult << " | \n";
+		out << "|"<<std::setw(78)<<"Total Cases Around the World:"<<"  " << std::setw(5) << CaseResult << " |" << std::endl
+			<< "|"<< std::setw(78) <<"Total Deaths Around the World:"<<"  " << std::setw(5) << DeathResult << " |\n";
 	}
 
 	void CovidCollection::cleanList(){
@@ -155,7 +155,7 @@ namespace sdds {
 			out << "";
 		}
 		out << " | " << std::setw(4) << theCovid.m_caseNum << " | "
-			<< std::setw(3) << theCovid.m_deaths << " |\n";
+			<< std::setw(3) << theCovid.m_deaths << " |";
 		return out;
 	}
 }
