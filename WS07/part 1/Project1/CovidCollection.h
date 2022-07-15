@@ -1,3 +1,12 @@
+/*
+	Course_Name:	OOP 345
+	Section:		A
+	Title:			Workshop 7 Part 2
+	Module:			CovidCollection
+	File_Name:		CovidCollection.cpp
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
 #ifndef SDDS_COVIDCOLLECTION_H
 #define SDDS_COVIDCOLLECTION_H
 #include <list>

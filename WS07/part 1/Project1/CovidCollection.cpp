@@ -1,3 +1,12 @@
+/*
+	Course_Name:	OOP 345
+	Section:		A
+	Title:			Workshop 7 Part 2
+	Module:			CovidCollection
+	File_Name:		CovidCollection.cpp
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
 #include <numeric>
 #include <functional>
 #include <iomanip>
@@ -17,10 +26,8 @@ namespace sdds {
 			// You have a extra line// 
 			/*unsigned counter{};*/
 			while (!ifstr.eof()){
-				/*std::cout << ifstr.peek()<<'\n';*/
 				if (ifstr.peek()!=-1){
 					Covid temp{};
-						/*std::cout << ++counter << "\n";*/
 						// When I have time I will make this beautiful logic work//
 
 						//std::string line{};
@@ -51,8 +58,8 @@ namespace sdds {
 						//skippingThruSpaces(fst_pos, sec_pos, line);
 						//temp.m_deaths = std::stoull(guansTrimmerV2(line.substr(fst_pos, sec_pos - fst_pos)));
 
-						// The most ugly code I ever wrote since OOP244//
-						// Unfortunately it works//
+					// The most ugly code I ever wrote since OOP244//
+					// Unfortunately it works//
 					char tempCountry[27]{};
 					char tempCity[27]{};
 					char tempVariant[27]{};
@@ -95,6 +102,7 @@ namespace sdds {
 	}
 
 	void CovidCollection::sort(std::string keyWord){
+
 		if (keyWord=="country")	{
 			std::sort(m_collection.begin(), m_collection.end(), [](const Covid& src1, const Covid& src2) {return src1.m_country < src2.m_country; });
 		}
@@ -133,8 +141,6 @@ namespace sdds {
 		resList.erase(std::remove_if(resList.begin(), resList.end(), [](const Covid& src) {return src.m_country == ""; }),resList.end());
 		return resList;
 	}
-
-
 
 	std::string& guansTrimmerV2(std::string&& src) {
 		if (src.c_str()) {
