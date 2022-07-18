@@ -78,7 +78,12 @@ namespace sdds {
 	}
 
 	bool CustomerOrder::isItemFilled(const std::string& itemName) const	{
-		return std::all_of(&m_lstItem[0], &m_lstItem[m_cntItem], [](const Item* ele) {return !(ele->m_itemName == ""); });
+		bool result{true};
+		std::for_each(m_lstItem, &m_lstItem[m_cntItem], [=, &result](const Item* element) {
+			if (element->m_itemName == itemName && !element->m_isFilled) {
+				result = false;
+			}; });
+		return result;
 	}
 
 	void CustomerOrder::fillItem(Station& station, std::ostream& os){
@@ -103,8 +108,8 @@ namespace sdds {
 	void CustomerOrder::display(std::ostream& os) const	{
 		os << m_name << " - " << m_product << "\n";
 		std::for_each(m_lstItem, &m_lstItem[m_cntItem], [&os](const Item* ele) {
-			os << "[" << std::setw(6) << ele->m_serialNumber << "]"
-				<< std::setw(m_widthField) << ele->m_itemName
+			os << "[" << std::setw(6)<<std::setfill('0') << ele->m_serialNumber << "]"
+				<< std::setw(m_widthField)<< std::setfill(' ') << ele->m_itemName
 				<< " - " << (ele->m_isFilled ? "FILLED" : "TO BE FILLED") << "\n";
 			});
 	}
