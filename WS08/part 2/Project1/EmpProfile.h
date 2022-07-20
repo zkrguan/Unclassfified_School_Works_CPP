@@ -1,3 +1,12 @@
+/*
+	Course_Name:	OOP 345
+	Section:		A
+	Title:			Workshop 8 Part 2
+	Module:			EmpProfile
+	File_Name:		EmpProfile.h
+	Student_Name:	Zhaokai_Guan
+	Student_ID:		130988215
+*/
 #ifndef SDDS_EMPPROFILE_H
 #define SDDS_EMPPROFILE_H
 
@@ -77,7 +86,11 @@ namespace sdds {
 		}
 
 		//TODO: add a function here to check correct salary range
-		
+		void rangeValidator() {
+			if (m_salary > 99999.0 || m_salary < 0.0) {
+				throw std::string("*** Employees salaray range is not valid");
+			}
+		}
 
 		void print(std::ostream& os)const {
 			os << std::setw(15) << name << std::setw(10) << m_salary<<std::endl;
