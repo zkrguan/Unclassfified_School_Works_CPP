@@ -28,7 +28,7 @@ namespace sdds {
 							delete temp;
 						}
 						else {
-							throw "Your Luhn sucks lol\n";
+							throw std::string( "Your Luhn sucks lol\n");
 						}
 					}
 					catch (std::string err) {
@@ -57,7 +57,7 @@ namespace sdds {
 						activeEmp += temp;
 					}
 					else {
-						throw "Your Luhn sucks lol\n";
+						throw std::string("Your Luhn sucks lol\n");
 					}
 				}
 			}
