@@ -2,7 +2,6 @@
 #define SDDS_WORKSTATION_H
 #include <deque>
 #include <string>
-
 #include "CustomerOrder.h"
 #include "Station.h"
 namespace sdds {
@@ -10,7 +9,7 @@ namespace sdds {
 	extern std::deque<CustomerOrder> g_completed;
 	extern std::deque<CustomerOrder> g_incompleted;
 	class Workstation : public Station{
-		std::deque<CustomerOrder> m_orders;
+		std::deque<CustomerOrder> m_orders{};
 		Workstation* m_pNextStation{};
 
 	public:

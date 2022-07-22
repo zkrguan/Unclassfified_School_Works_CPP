@@ -6,13 +6,39 @@
 namespace sdds {
 	void sdds::Workstation::fill(std::ostream& os) {
 		if (m_orders.size()){
-			/*m_orders.begin()->fillItem(os)*/
+			m_orders.begin()->fillItem(*this,os);
 		}
 	}
 	bool Workstation::attemptToMoveOrder()	{
-		bool result{};
-
+		bool result{false};
+		if (m_orders.begin()->isOrderFilled()||!Station::getQuantity())	{
+			if (!m_pNextStation){
+				if (m_orders.begin()->isOrderFilled()){
+					g_completed.push_back((std::move(*m_orders.begin())));
+				}
+				else{
+					g_incompleted.push_back((std::move(*m_orders.begin())));
+				}
+			}
+			else{
+				(*m_pNextStation) += std::move(*m_orders.begin());
+			}
+			result = true;
+		}
 		return result;
+	}
+	void Workstation::setNextStation(Workstation* station = nullptr){
+		m_pNextStation = station;
+	}
+	Workstation* Workstation::getNextStation() const	{
+		return m_pNextStation;
+	}
+	void Workstation::display(std::ostream& os) const {
+		os << this->getItemName() << "--> " << (m_pNextStation ? m_pNextStation->getItemName() : std::string("End of Line"))<< std::endl;
+	}
+	Workstation& Workstation::operator+=(CustomerOrder&& newOrder)	{
+		m_orders.push_back(newOrder);
+		return *this;
 	}
 }
 
