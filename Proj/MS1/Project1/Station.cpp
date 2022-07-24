@@ -1,3 +1,10 @@
+// Name:Zhaokai Guan
+// Seneca Student ID:130 988 215
+// Seneca email: zguan25@myseneca.ca
+// Date of completion: July 24th 2022
+//
+// I confirm that I am the only author of this file
+//   and the content was created entirely by me.
 #include <string>
 #include <iostream>
 #include <iomanip>
