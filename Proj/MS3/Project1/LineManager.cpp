@@ -81,8 +81,9 @@ namespace sdds {
 
 	bool LineManager::run(std::ostream& os){
 		static size_t itr_cnt{};
-		os << "Line Manager Iteration: COUNT<endl> " << ++itr_cnt << std::endl;
-		*m_firstStation += std::move(*g_pending.begin());
+		os << "Line Manager Iteration: " << ++itr_cnt << std::endl;
+		std::for_each(m_activeLine.begin(), m_activeLine.end(), [](Workstation* src) {*src += std::move(*g_pending.begin()); });
+		std::for_each(m_activeLine.begin(), m_activeLine.end(), [&os](Workstation* src) {src->fill(os); });
 		g_pending.pop_front();
 		return !g_pending.size();
 	}

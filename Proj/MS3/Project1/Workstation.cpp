@@ -40,7 +40,7 @@ namespace sdds {
 		os << this->getItemName() << "--> " << (m_pNextStation ? m_pNextStation->getItemName() : std::string("End of Line"))<< std::endl;
 	}
 	Workstation& Workstation::operator+=(CustomerOrder&& newOrder)	{
-		m_orders.push_back(newOrder);
+		m_orders.push_back(std::move(newOrder));
 		return *this;
 	}
 }
