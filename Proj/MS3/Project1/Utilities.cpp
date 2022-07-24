@@ -33,7 +33,7 @@ namespace sdds {
 		return guansTrimmerV3(res);
 	}
 
-	void Utilities::setDelimiter(char newDelimiter='|') { m_delimiter = newDelimiter; }
+	void Utilities::setDelimiter(char newDelimiter) { m_delimiter = newDelimiter; }
 
 	char Utilities::getDelimiter(){return m_delimiter;}
 

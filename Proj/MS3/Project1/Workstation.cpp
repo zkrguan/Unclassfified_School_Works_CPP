@@ -4,6 +4,9 @@
 #include "Station.h"
 #include "Workstation.h"
 namespace sdds {
+	std::deque<CustomerOrder> g_pending{};
+	std::deque<CustomerOrder> g_completed{};
+	std::deque<CustomerOrder> g_incomplete{};
 	void sdds::Workstation::fill(std::ostream& os) {
 		if (m_orders.size()){
 			m_orders.begin()->fillItem(*this,os);
@@ -17,7 +20,7 @@ namespace sdds {
 					g_completed.push_back((std::move(*m_orders.begin())));
 				}
 				else{
-					g_incompleted.push_back((std::move(*m_orders.begin())));
+					g_incomplete.push_back((std::move(*m_orders.begin())));
 				}
 			}
 			else{
@@ -27,7 +30,7 @@ namespace sdds {
 		}
 		return result;
 	}
-	void Workstation::setNextStation(Workstation* station = nullptr){
+	void Workstation::setNextStation(Workstation* station){
 		m_pNextStation = station;
 	}
 	Workstation* Workstation::getNextStation() const	{

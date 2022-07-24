@@ -7,7 +7,7 @@
 namespace sdds {
 	extern std::deque<CustomerOrder> g_pending;
 	extern std::deque<CustomerOrder> g_completed;
-	extern std::deque<CustomerOrder> g_incompleted;
+	extern std::deque<CustomerOrder> g_incomplete;
 	class Workstation : public Station{
 		std::deque<CustomerOrder> m_orders{};
 		Workstation* m_pNextStation{};
@@ -22,7 +22,7 @@ namespace sdds {
 		Workstation(const std::string& src) : Station(src) {};
 		void fill(std::ostream& os);
 		bool attemptToMoveOrder();
-		void setNextStation(Workstation* station);
+		void setNextStation(Workstation* station = nullptr);
 		Workstation* getNextStation() const;
 		void display(std::ostream& os) const;
 		Workstation& operator+=(CustomerOrder&& newOrder);
