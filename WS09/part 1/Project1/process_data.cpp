@@ -44,22 +44,22 @@ namespace sdds_ws9 {
 		//       The file is binary and has the format described in the specs.
 		std::ifstream ifstr(filename, std::ios_base::binary);
 		int doc_size{};
-		if(ifstr){
-			ifstr.read((char*)&doc_size, 4);
+		if (ifstr) {
+			ifstr.read((char*)&doc_size, sizeof(doc_size));
 		}
 		total_items = doc_size;
 		//allocate memory for that//
-		data = new int[total_items];
+		data = new int[total_items+1];
 		int index = 0;
-		while (ifstr){
-			ifstr.read((char*)&(data[index]),4);
+		while (ifstr) {
+			ifstr.read((char*)&(data[index]), sizeof((data[index]));
 			index++;
 		}
 		ifstr.close();
-		std::cout << "Item's count in file '"<< filename << "': " << total_items << std::endl;
+		std::cout << "Item's count in file '" << filename << "': " << total_items << std::endl;
 		std::cout << "  [" << data[0] << ", " << data[1] << ", " << data[2] << ", ... , "
-		          << data[total_items - 3] << ", " << data[total_items - 2] << ", "
-		          << data[total_items - 1] << "]\n";
+			<< data[total_items - 3] << ", " << data[total_items - 2] << ", "
+			<< data[total_items - 1] << "]\n";
 	}
 	
 	ProcessData::~ProcessData() {
@@ -75,9 +75,9 @@ namespace sdds_ws9 {
 		computeAvgFactor(data, total_items, total_items, average);
 		computeVarFactor(data, total_items, total_items, average, variance);
 		std::ofstream ofstr(target, std::ios::binary);
-		ofstr.write((const char*)&total_items, sizeof(total_items));
+		ofstr.write((const char*)&total_items, 4);
 		for (int i = 0; i < total_items; i++){
-			ofstr.write((const char*)&data[i], sizeof(data[i]));
+			ofstr.write((const char*)&data[i], 4);
 		}
 		return 0;
 	}
