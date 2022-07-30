@@ -1,12 +1,15 @@
 #include <deque>
+#include <algorithm>
 #include <string>
 #include "CustomerOrder.h"
 #include "Station.h"
 #include "Workstation.h"
 namespace sdds {
+	//Define global//
 	std::deque<CustomerOrder> g_pending{};
 	std::deque<CustomerOrder> g_completed{};
 	std::deque<CustomerOrder> g_incomplete{};
+
 	void sdds::Workstation::fill(std::ostream& os) {
 		if (m_orders.size()){
 			m_orders.begin()->fillItem(*this,os);
@@ -14,19 +17,30 @@ namespace sdds {
 	}
 	bool Workstation::attemptToMoveOrder()	{
 		bool result{false};
-		if (m_orders.begin()->isOrderFilled()||!Station::getQuantity())	{
-			if (!m_pNextStation){
-				if (m_orders.begin()->isOrderFilled()){
-					g_completed.push_back((std::move(*m_orders.begin())));
+		// added line 21 for avoid some exception//
+		if (m_orders.size()){
+			// checking the station handled item filled or not//
+			// Checking quantity//
+			if (m_orders.begin()->isItemFilled(getItemName()) || !getQuantity()) {
+				if (!m_pNextStation) {
+					if (m_orders.begin()->isOrderFilled()) {
+						g_completed.push_back((std::move(*m_orders.begin())));
+					}
+					else {
+						g_incomplete.push_back((std::move(*m_orders.begin())));
+					}
+					// Once the current order at the last station//
+					// It has to be moved to either completed or incompleted//
+					// Don't forget to pop out the empty element just moved to the global//
+					m_orders.pop_front();
 				}
-				else{
-					g_incomplete.push_back((std::move(*m_orders.begin())));
+				else {
+					// When the current station is not the last station, move order to next station//
+					(*m_pNextStation) += std::move(*m_orders.begin());
+					m_orders.pop_front();
 				}
+				result = true;
 			}
-			else{
-				(*m_pNextStation) += std::move(*m_orders.begin());
-			}
-			result = true;
 		}
 		return result;
 	}

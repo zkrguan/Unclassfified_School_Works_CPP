@@ -87,20 +87,23 @@ namespace sdds {
 	}
 
 	void CustomerOrder::fillItem(Station& station, std::ostream& os){
-		auto indexPtr = std::find_if(m_lstItem, &m_lstItem[m_cntItem], [=](const Item* ele) {return ele->m_itemName == station.getItemName(); });
-		/*std::any_of(m_lstItem,&m_lstItem[m_cntItem],[=](const Item* ele) {return ele->m_itemName == station.getItemName();})*/
-		// Don't know this would work//
-		if (indexPtr!=&m_lstItem[m_cntItem]) {
-			if (station.getQuantity()){
-				//TD: might need one more if clause or change the predicate in the find_if
-				station.updateQuantity();
-				(*indexPtr)->m_isFilled = true;
-				// might not be right//
-				(*indexPtr)->m_serialNumber = station.getNextSerialNumber();
-				os << "Filled " + m_name + ", " + m_product + " [" + (*indexPtr)->m_itemName + "]\n";
-			}
-			else{
-				os << "Unable to fill " + m_name + ", " + m_product + " [" + (*indexPtr)->m_itemName + "]\n";
+		// everytime it needs to be only filling one thing instead of all of it//
+		bool flag{ true };
+		// Since m_lstItem is dynamic, we can't use range based for loop//
+		for (size_t i = 0; i < m_cntItem&&flag; i++){
+			if (m_lstItem[i]->m_itemName == station.getItemName()&& !m_lstItem[i]->m_isFilled) {
+				if (station.getQuantity()) {
+					//TD: might need one more if clause or change the predicate in the find_if
+					station.updateQuantity();
+					m_lstItem[i]->m_isFilled = true;
+					// might not be right//
+					m_lstItem[i]->m_serialNumber = station.getNextSerialNumber();
+					os << "Filled " + m_name + ", " + m_product + " [" + m_lstItem[i]->m_itemName + "]\n";
+					flag = false;
+				}
+				else {
+					os << "Unable to fill " + m_name + ", " + m_product + " [" + m_lstItem[i]->m_itemName + "]\n";
+				}
 			}
 		}
 	}
@@ -111,7 +114,7 @@ namespace sdds {
 			os << "[" << std::setw(6)<<std::setfill('0') << ele->m_serialNumber << "]"
 				<< std::setw(m_widthField)<< std::setfill(' ') << ele->m_itemName
 				<< " - " << (ele->m_isFilled ? "FILLED" : "TO BE FILLED") << "\n";
-			});
+		});
 	}
 
 }

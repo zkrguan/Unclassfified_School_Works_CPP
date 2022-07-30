@@ -5,6 +5,7 @@
 #include "CustomerOrder.h"
 #include "Station.h"
 namespace sdds {
+	// Declare global//
 	extern std::deque<CustomerOrder> g_pending;
 	extern std::deque<CustomerOrder> g_completed;
 	extern std::deque<CustomerOrder> g_incomplete;
